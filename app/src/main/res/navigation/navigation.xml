@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/storeFragment">
+
+    <fragment
+        android:id="@+id/storeFragment"
+        android:name="mucacho.apps.zapcha.StoreFragment"
+        android:label="StoreFragment" >
+        <action
+            android:id="@+id/action_storeFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="mucacho.apps.zapcha.ProductFragment"
+        android:label="ProductFragment" >
+        <argument
+            android:name="ProductId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/partnersFragment"
+        android:name="mucacho.apps.zapcha.PartnersFragment"
+        android:label="@string/title_partners"
+        tools:layout="@layout/fragment_partners" />
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="mucacho.apps.zapcha.NewsFragment"
+        android:label="fragment_news"
+        tools:layout="@layout/fragment_news" />
+</navigation>
