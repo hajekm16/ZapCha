@@ -13,7 +13,9 @@ import androidx.navigation.ui.NavigationUI
 import mucacho.apps.zapcha.databinding.FragmentStoreBinding
 
 class StoreFragment : Fragment() {
-    private val ProductId = 1
+    private val PRODUCTID_ANANAS = 1
+    private val PRODUCTID_ZAZVOR = 2
+    private val PRODUCTID_BORUVKA = 3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,8 +23,14 @@ class StoreFragment : Fragment() {
     ): View? {
         val binding: FragmentStoreBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_store, container, false)
-        binding.changeButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(StoreFragmentDirections.actionStoreFragmentToProductFragment(ProductId))
+        binding.AnanasButton.setOnClickListener(
+            Navigation.createNavigateOnClickListener(StoreFragmentDirections.actionStoreFragmentToProductFragment(PRODUCTID_ANANAS))
+        )
+        binding.ZazvorButton.setOnClickListener(
+            Navigation.createNavigateOnClickListener(StoreFragmentDirections.actionStoreFragmentToProductFragment(PRODUCTID_ZAZVOR))
+        )
+        binding.BoruvkaButton.setOnClickListener(
+            Navigation.createNavigateOnClickListener(StoreFragmentDirections.actionStoreFragmentToProductFragment(PRODUCTID_BORUVKA))
         )
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {

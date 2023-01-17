@@ -9,9 +9,11 @@ import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import mucacho.apps.zapcha.databinding.FragmentProductBinding
 
 class ProductFragment : Fragment() {
 
@@ -25,6 +27,11 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val binding: FragmentProductBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_product, container, false)
+        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+        var args = ProductFragmentArgs.fromBundle(requireArguments())
+        viewModel.LoadProduct(args.productId)
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -59,15 +66,11 @@ class ProductFragment : Fragment() {
                 startActivity(getShareIntent())
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        return inflater.inflate(R.layout.fragment_product, container, false)
+        binding.Name.text = viewModel.name
+        binding.Price.text = viewModel.price.toString()
+        binding.Stock.text = viewModel.stock.toString()
+        binding.Descr.text = viewModel.descr
+        return binding.root
+//        return inflater.inflate(R.layout.fragment_product, container, false)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-        // TODO: Use the ViewModel
-        var args = ProductFragmentArgs.fromBundle(requireArguments())
-        Toast.makeText(context,"ProductId: ${args.productId}",Toast.LENGTH_LONG).show()
-    }
-
 }

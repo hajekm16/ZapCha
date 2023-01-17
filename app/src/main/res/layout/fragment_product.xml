@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="productViewModel"
+            type="mucacho.apps.zapcha.ProductViewModel" />
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -8,27 +13,52 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name" />
+
         <TextView
+            android:id="@+id/Price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Price" />
+
         <TextView
+            android:id="@+id/Stock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Stock" />
+
         <TextView
+            android:id="@+id/Descr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Buy now"></Button>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextQty"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:inputType="number"
+                android:text="@string/ProductInitQty" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:text="Buy now"></Button>
+        </LinearLayout>
 
     </LinearLayout>
 </layout>
