@@ -5,7 +5,7 @@
     <string name="title_partners">Chci ZapChu</string>
     <string name="title_news">Co je nového?</string>
     <string name="share">Share it</string>
-    <string name="share_product_text">ZapCha %1$d je bomba!</string>
+    <string name="share_product_text">ZapCha %1$s je bomba!</string>
     <string name="ProductInitQty">1</string>
     <string name="productName_Ananas">Ananas</string>
     <string name="productName_Zazvor">Zazvor</string>

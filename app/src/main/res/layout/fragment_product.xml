@@ -53,11 +53,12 @@
                 android:text="@string/ProductInitQty" />
 
             <Button
+                android:id="@+id/newStock"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:text="Buy now"></Button>
+                android:text="New Stock"></Button>
         </LinearLayout>
 
     </LinearLayout>

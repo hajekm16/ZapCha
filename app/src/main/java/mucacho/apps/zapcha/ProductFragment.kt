@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
+import androidx.lifecycle.Observer
 import mucacho.apps.zapcha.databinding.FragmentProductBinding
 
 class ProductFragment : Fragment() {
@@ -31,7 +29,9 @@ class ProductFragment : Fragment() {
             inflater, R.layout.fragment_product, container, false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         var args = ProductFragmentArgs.fromBundle(requireArguments())
-        viewModel.LoadProduct(args.productId)
+        if (viewModel.name == "") {
+            viewModel.loadProduct(args.productId)
+        }
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -54,11 +54,12 @@ class ProductFragment : Fragment() {
             }
 
             private fun getShareIntent() : Intent {
-                val args = ProductFragmentArgs.fromBundle(requireArguments())
+//                var args = ProductFragmentArgs.fromBundle(requireArguments())
                 return ShareCompat.IntentBuilder(requireActivity())
                     .setType("text/plain")
                     .setChooserTitle("Jak sdílet: ")
-                    .setText(getString(R.string.share_product_text, args.productId))
+//                    .setText(getString(R.string.share_product_text, args.productId))
+                    .setText(getString(R.string.share_product_text, viewModel.name))
                     .createChooserIntent()
             }
 
@@ -68,8 +69,12 @@ class ProductFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding.Name.text = viewModel.name
         binding.Price.text = viewModel.price.toString()
-        binding.Stock.text = viewModel.stock.toString()
         binding.Descr.text = viewModel.descr
+        viewModel.stock.observe(viewLifecycleOwner, Observer { newStock ->
+            binding.Stock.text = newStock.toString()
+        })
+        binding.newStock.setOnClickListener{
+            viewModel.newStockQty(binding.editTextQty.text.toString().toInt())}
         return binding.root
 //        return inflater.inflate(R.layout.fragment_product, container, false)
     }
