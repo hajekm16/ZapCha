@@ -28,7 +28,7 @@
             android:id="@+id/Stock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{``+productViewModel.stock}" />
+            android:text="@{productViewModel.stockString}" />
 
         <TextView
             android:id="@+id/Descr"

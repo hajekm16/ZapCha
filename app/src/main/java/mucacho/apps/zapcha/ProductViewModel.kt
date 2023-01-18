@@ -1,7 +1,9 @@
 package mucacho.apps.zapcha
 
+import android.view.ViewDebug.IntToString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class ProductViewModel : ViewModel() {
@@ -11,11 +13,15 @@ class ProductViewModel : ViewModel() {
     private val _stock = MutableLiveData<Int>()
     val stock : LiveData<Int>
         get() = _stock
+    val stockString = Transformations.map(stock,{onStock -> stockToString(onStock)})
     init{
 //        one time setting
         _stock.value = 0
     }
 
+    fun stockToString(qty : Int) : String{
+        return "Na sklade: " + qty.toString()
+    }
     fun newStockQty(newQty: Int){
         _stock.value = newQty
     }

@@ -69,12 +69,6 @@ class ProductFragment : Fragment() {
                 startActivity(getShareIntent())
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        binding.Name.text = viewModel.name
-        binding.Price.text = viewModel.price.toString()
-        binding.Descr.text = viewModel.descr
-        viewModel.stock.observe(viewLifecycleOwner, Observer { newStock ->
-            binding.Stock.text = newStock.toString()
-        })
         binding.newStock.setOnClickListener{
             viewModel.newStockQty(binding.editTextQty.text.toString().toInt())}
         return binding.root
