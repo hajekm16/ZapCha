@@ -1,11 +1,15 @@
 package mucacho.apps.zapcha
 
 import android.content.Intent
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.app.ShareCompat
+import androidx.core.content.getSystemService
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
@@ -70,8 +74,22 @@ class ProductFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding.newStock.setOnClickListener{
-            viewModel.newStockQty(binding.editTextQty.text.toString().toInt())}
+            viewModel.newStockQty(binding.editTextQty.text.toString().toInt())
+        buzz()}
         return binding.root
 //        return inflater.inflate(R.layout.fragment_product, container, false)
+    }
+
+    private fun buzz() {
+        val buzzer = activity?.getSystemService<Vibrator>()
+
+        buzzer?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                buzzer.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                //deprecated in API 26
+                buzzer.vibrate(200)
+            }
+        }
     }
 }
