@@ -11,15 +11,17 @@ class ProductViewModel : ViewModel() {
     private val _stock = MutableLiveData<Int>()
     val stock : LiveData<Int>
         get() = _stock
-    val productName: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
     init{
 //        one time setting
         _stock.value = 0
     }
-    fun newStockQty(Qty:Int){
-        _stock.value = Qty
+
+    fun newStockQty(newQty: Int){
+        _stock.value = newQty
+    }
+
+    fun sellOneBottle(){
+        _stock.value = _stock.value?.minus(1)
     }
 
     fun loadProduct(productId: Int = 0){

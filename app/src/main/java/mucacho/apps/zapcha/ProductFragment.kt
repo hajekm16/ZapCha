@@ -28,6 +28,8 @@ class ProductFragment : Fragment() {
         val binding: FragmentProductBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_product, container, false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+        binding.productViewModel = viewModel
+        binding.setLifecycleOwner(this)
         var args = ProductFragmentArgs.fromBundle(requireArguments())
         if (viewModel.name == "") {
             viewModel.loadProduct(args.productId)
