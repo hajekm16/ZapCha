@@ -1,12 +1,18 @@
 package mucacho.apps.zapcha
 
+import android.app.Application
 import android.view.ViewDebug.IntToString
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import mucacho.apps.zapcha.database.ZapchaDatabase
+import mucacho.apps.zapcha.database.ZapchaDatabaseDao
 
-class ProductViewModel : ViewModel() {
+class ProductViewModel(
+    val database: ZapchaDatabaseDao,
+    application: Application) : AndroidViewModel(application) {
     var name = ""
     var price = 0
     var descr = ""

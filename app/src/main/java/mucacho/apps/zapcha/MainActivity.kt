@@ -12,7 +12,6 @@ import androidx.navigation.ui.NavigationUI
 import mucacho.apps.zapcha.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private val model: ProductViewModel by viewModels()
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration : AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {

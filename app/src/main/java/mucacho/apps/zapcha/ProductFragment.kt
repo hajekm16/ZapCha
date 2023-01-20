@@ -15,6 +15,7 @@ import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentProductBinding
 
 class ProductFragment : Fragment() {
@@ -23,15 +24,21 @@ class ProductFragment : Fragment() {
         fun newInstance() = ProductFragment()
     }
 
-    private lateinit var viewModel: ProductViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentProductBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_product, container, false)
-        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+//        reference to the application
+        val application = requireNotNull(this.activity).application
+//        reference to the datasource
+        val dataSource = ZapchaDatabase.getInstance(application).zapchaDatabaseDao
+
+        val viewModelFactory = ProductViewModelFactory(dataSource,application)
+
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(ProductViewModel::class.java)
+//        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         binding.productViewModel = viewModel
         binding.setLifecycleOwner(this)
         var args = ProductFragmentArgs.fromBundle(requireArguments())
