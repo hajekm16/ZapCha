@@ -9,9 +9,9 @@ data class ZapChaProduct(
     @PrimaryKey(autoGenerate = true)
     var productId: Long = 0L,
     @ColumnInfo(name = "product_name")
-    val productName: String?,
+    var productName: String = "",
     @ColumnInfo(name = "product_description")
-    var productDescr: String?,
+    var productDescr: String = "",
     @ColumnInfo(name = "product_price")
     var productPrice: Long = 0,
     @ColumnInfo(name = "product_stock")

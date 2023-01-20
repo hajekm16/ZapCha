@@ -13,6 +13,7 @@ abstract class ZapchaDatabase : RoomDatabase() {
 //    object pro pristup k metodam bez instance tridy
     companion object{
 //        zajistime vzdy aktualni hodnotu instance
+        @Volatile
         private var INSTANCE: ZapchaDatabase? = null
 
         fun getInstance(context: Context) : ZapchaDatabase {
