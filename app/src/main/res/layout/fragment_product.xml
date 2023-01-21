@@ -69,5 +69,20 @@
             android:text="Sell one bottle"
             android:onClick="@{() -> productViewModel.sellOneBottle()}"/>
 
+        <Button
+            android:id="@+id/Save"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:text="Save"
+            android:onClick="@{() -> productViewModel.onSaveProduct()}"/>
+        <Button
+            android:id="@+id/Delete"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:text="Delete"
+            android:onClick="@{() -> productViewModel.onDeleteProduct()}"/>
+
     </LinearLayout>
 </layout>

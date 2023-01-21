@@ -10,4 +10,5 @@
     <string name="productName_Ananas">Ananas</string>
     <string name="productName_Zazvor">Zazvor</string>
     <string name="productName_Boruvka">Boruvka</string>
+    <string name="delete">Smazat vse</string>
 </resources>

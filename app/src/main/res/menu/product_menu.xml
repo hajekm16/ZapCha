@@ -8,4 +8,10 @@
         android:title="@string/share"
         android:visible="true"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/clear"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete"
+        android:visible="true" />
 </menu>
