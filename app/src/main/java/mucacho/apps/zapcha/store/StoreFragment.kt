@@ -1,4 +1,4 @@
-package mucacho.apps.zapcha
+package mucacho.apps.zapcha.store
 
 import android.os.Bundle
 import android.view.*
@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.databinding.FragmentStoreBinding
 
 class StoreFragment : Fragment() {
@@ -24,13 +25,25 @@ class StoreFragment : Fragment() {
         val binding: FragmentStoreBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_store, container, false)
         binding.AnanasButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(StoreFragmentDirections.actionStoreFragmentToProductFragment(PRODUCTID_ANANAS))
+            Navigation.createNavigateOnClickListener(
+                mucacho.apps.zapcha.store.StoreFragmentDirections.actionStoreFragmentToProductFragment(
+                    PRODUCTID_ANANAS
+                )
+            )
         )
         binding.ZazvorButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(StoreFragmentDirections.actionStoreFragmentToProductFragment(PRODUCTID_ZAZVOR))
+            Navigation.createNavigateOnClickListener(
+                mucacho.apps.zapcha.store.StoreFragmentDirections.actionStoreFragmentToProductFragment(
+                    PRODUCTID_ZAZVOR
+                )
+            )
         )
         binding.BoruvkaButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(StoreFragmentDirections.actionStoreFragmentToProductFragment(PRODUCTID_BORUVKA))
+            Navigation.createNavigateOnClickListener(
+                mucacho.apps.zapcha.store.StoreFragmentDirections.actionStoreFragmentToProductFragment(
+                    PRODUCTID_BORUVKA
+                )
+            )
         )
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {

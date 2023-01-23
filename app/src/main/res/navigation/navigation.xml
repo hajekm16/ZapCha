@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/storeFragment"
-        android:name="mucacho.apps.zapcha.StoreFragment"
+        android:name="mucacho.apps.zapcha.store.StoreFragment"
         android:label="StoreFragment" >
         <action
             android:id="@+id/action_storeFragment_to_productFragment"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/productFragment"
-        android:name="mucacho.apps.zapcha.ProductFragment"
+        android:name="mucacho.apps.zapcha.product.ProductFragment"
         android:label="ProductFragment" >
         <argument
             android:name="ProductId"

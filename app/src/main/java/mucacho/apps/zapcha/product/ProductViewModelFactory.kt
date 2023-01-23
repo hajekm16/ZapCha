@@ -1,4 +1,4 @@
-package mucacho.apps.zapcha
+package mucacho.apps.zapcha.product
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

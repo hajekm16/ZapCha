@@ -1,4 +1,4 @@
-package mucacho.apps.zapcha
+package mucacho.apps.zapcha.product
 
 import android.content.Intent
 import android.os.Build
@@ -14,7 +14,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
+import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentProductBinding
 
@@ -41,7 +41,7 @@ class ProductFragment : Fragment() {
 //        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         binding.productViewModel = viewModel
         binding.setLifecycleOwner(this)
-        var args = ProductFragmentArgs.fromBundle(requireArguments())
+        var args = mucacho.apps.zapcha.product.ProductFragmentArgs.fromBundle(requireArguments())
         if (viewModel.name == "") {
             viewModel.loadProduct(args.productId)
         }
