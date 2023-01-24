@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentProductBinding
@@ -50,6 +51,16 @@ class ProductFragment : Fragment() {
             if (it==true){
                 this.findNavController().navigate(ProductFragmentDirections.actionProductFragmentToStoreFragment())
                 viewModel.doneNavigating()
+            }
+        })
+        viewModel.showSnackBarEvent.observe(this, Observer {
+            if (it == true) {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    getString(R.string.sell_product_text),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                viewModel.doneShowingSnackbar()
             }
         })
         binding.lifecycleOwner = this

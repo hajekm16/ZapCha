@@ -45,7 +45,17 @@ class ProductViewModel(
     private val _stock = MutableLiveData<Int>()
     val stock : LiveData<Int>
         get() = _stock
+
     val stockString = Transformations.map(stock,{onStock -> stockToString(onStock)})
+
+    private var _showSnackbarEvent = MutableLiveData<Boolean>()
+
+    val showSnackBarEvent: LiveData<Boolean>
+        get() = _showSnackbarEvent
+
+    fun doneShowingSnackbar(){
+        _showSnackbarEvent.value = false
+    }
 
     init{
 //        one time setting
@@ -134,6 +144,7 @@ class ProductViewModel(
 
     fun sellOneBottle(){
         _stock.value = _stock.value?.minus(1)
+        _showSnackbarEvent.value = true
     }
 
     override fun onCleared() {
