@@ -1,21 +1,19 @@
 package mucacho.apps.zapcha.product
 
 import android.app.Application
-import android.provider.SyncStateContract.Helpers.insert
-import android.view.ViewDebug.IntToString
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import mucacho.apps.zapcha.database.ZapChaProduct
-import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.database.ZapchaDatabaseDao
 
 class ProductViewModel(
+    val productId: Long,
     val database: ZapchaDatabaseDao,
-    application: Application) : AndroidViewModel(application) {
+    application: Application
+) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
 
@@ -23,11 +21,27 @@ class ProductViewModel(
 
     private var currentProduct = MutableLiveData<ZapChaProduct?>()
 
-    private val products = database.getAllProducts()
+    private val _navigateToStore = MutableLiveData<Boolean?>()
 
-    var name = ""
-    var price = 0
-    var descr = ""
+    val navigateToStore : LiveData<Boolean?>
+        get() = _navigateToStore
+
+    fun doneNavigating() {
+        _navigateToStore.value = null
+    }
+
+    private val _name = MutableLiveData<String>()
+    val name : LiveData<String>
+        get() = _name
+
+    private val _descr = MutableLiveData<String>()
+    val descr : LiveData<String>
+        get() = _descr
+
+    private val _price = MutableLiveData<Long>()
+    val price : LiveData<Long>
+        get() = _price
+
     private val _stock = MutableLiveData<Int>()
     val stock : LiveData<Int>
         get() = _stock
@@ -35,34 +49,37 @@ class ProductViewModel(
 
     init{
 //        one time setting
-        _stock.value = 0
-        initializeCurrentProduct()
+        initializeCurrentProduct(productId)
     }
 
-    private fun initializeCurrentProduct() {
+    private fun initializeCurrentProduct(Id : Long) {
         uiScope.launch {
-            currentProduct.value = getCurrentProductFromDatabase()
+            currentProduct.value = getCurrentProductFromDatabase(Id)
+            _name.value = currentProduct.value!!.productName
+            _price.value = currentProduct.value!!.productPrice
+            _descr.value = currentProduct.value!!.productDescr
+            _stock.value = currentProduct.value!!.productStock
         }
     }
 
-    private suspend fun getCurrentProductFromDatabase(): ZapChaProduct? {
+    private suspend fun getCurrentProductFromDatabase(Id: Long): ZapChaProduct? {
         return withContext(Dispatchers.IO) {
-            var product = database.getLastProduct()
+            val product = database.get(Id)
             product
         }
     }
 
     fun onSaveProduct(){
         uiScope.launch {
-            val newProduct = ZapChaProduct()
-            insert(newProduct)
-            currentProduct.value = getCurrentProductFromDatabase()
-        }
-    }
-
-    private suspend fun insert(product: ZapChaProduct){
-        withContext(Dispatchers.IO){
-            database.insert(product)
+            withContext(Dispatchers.IO){
+                val product = database.get(productId) ?: return@withContext
+                product.productStock = stock.value!!
+                product.productDescr = descr.value!!
+                product.productName = name.value!!
+                product.productPrice = price.value!!
+                database.update(product)
+            }
+            _navigateToStore.value = true
         }
     }
 
@@ -92,38 +109,31 @@ class ProductViewModel(
         }
     }
 
-    fun stockToString(qty : Int) : String{
+    private fun stockToString(qty : Int) : String{
         return "Na sklade: " + qty.toString()
     }
-    fun newStockQty(newQty: Int){
-        _stock.value = newQty
+    fun newStockQty(newQty: String){
+        if ((newQty != "null") && (newQty != "")) {
+            _stock.value = newQty.toInt()
+        }
+    }
+
+    fun newPrice(newPrice: String){
+        if ((newPrice != "null") && (newPrice != "")) {
+            _price.value = newPrice.toLong()
+        }
+    }
+
+    fun newProductName(newName: String){
+        _name.value = newName
+    }
+
+    fun newProductDescr(newDescr: String){
+        _descr.value = newDescr
     }
 
     fun sellOneBottle(){
         _stock.value = _stock.value?.minus(1)
-    }
-
-    fun loadProduct(productId: Int = 0){
-        when (productId){
-            1 -> {
-                name = "Ananas"
-                price = 55
-                _stock.value = 6
-                descr = "Tohle je trosku exotica..."
-            }
-            2 -> {
-                name = "Zazvor"
-                price = 55
-                _stock.value = 10
-                descr = "Tohle nakopne imunitu..."
-            }
-            3 -> {
-                name = "Boruvka"
-                price = 55
-                _stock.value = 8
-                descr = "Tohle je porce antioxidantu..."
-            }
-        }
     }
 
     override fun onCleared() {

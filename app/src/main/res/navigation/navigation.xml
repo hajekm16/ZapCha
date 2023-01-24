@@ -19,7 +19,12 @@
         android:label="ProductFragment" >
         <argument
             android:name="ProductId"
-            app:argType="integer" />
+            app:argType="long" />
+        <action
+            android:id="@+id/action_productFragment_to_storeFragment"
+            app:destination="@id/storeFragment"
+            app:popUpTo="@id/storeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/partnersFragment"

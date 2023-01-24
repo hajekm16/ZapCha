@@ -6,9 +6,12 @@
     <string name="title_news">Co je nového?</string>
     <string name="share">Share it</string>
     <string name="share_product_text">ZapCha %1$s je bomba!</string>
-    <string name="ProductInitQty">1</string>
     <string name="productName_Ananas">Ananas</string>
     <string name="productName_Zazvor">Zazvor</string>
     <string name="productName_Boruvka">Boruvka</string>
+    <string name="productName">Product name:</string>
+    <string name="productPrice">Product price:</string>
+    <string name="productDescr">Product description:</string>
+    <string name="productStock">Product stock quantity:</string>
     <string name="delete">Smazat vse</string>
 </resources>

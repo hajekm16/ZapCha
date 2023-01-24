@@ -12,8 +12,12 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.getSystemService
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentProductBinding
@@ -32,19 +36,24 @@ class ProductFragment : Fragment() {
             inflater, R.layout.fragment_product, container, false)
 //        reference to the application
         val application = requireNotNull(this.activity).application
+
+        val arguments = ProductFragmentArgs.fromBundle(requireArguments())
 //        reference to the datasource
         val dataSource = ZapchaDatabase.getInstance(application).zapchaDatabaseDao
 
-        val viewModelFactory = ProductViewModelFactory(dataSource,application)
+        val viewModelFactory = ProductViewModelFactory(arguments.productId,dataSource,application)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(ProductViewModel::class.java)
 //        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         binding.productViewModel = viewModel
-        binding.setLifecycleOwner(this)
-        var args = mucacho.apps.zapcha.product.ProductFragmentArgs.fromBundle(requireArguments())
-        if (viewModel.name == "") {
-            viewModel.loadProduct(args.productId)
-        }
+        viewModel.navigateToStore.observe(viewLifecycleOwner, Observer {
+            if (it==true){
+                this.findNavController().navigate(ProductFragmentDirections.actionProductFragmentToStoreFragment())
+                viewModel.doneNavigating()
+            }
+        })
+        binding.lifecycleOwner = this
+
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -61,6 +70,9 @@ class ProductFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.share -> {
                         shareSuccess()
+                        true}
+                    R.id.clear -> {
+                        deleteAllProducts()
                         true}
                     else -> false
                 }
@@ -79,12 +91,25 @@ class ProductFragment : Fragment() {
             private fun shareSuccess() {
                 startActivity(getShareIntent())
             }
+
+            private fun deleteAllProducts() {
+                viewModel.onClear()
+            }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        binding.newStock.setOnClickListener{
-            viewModel.newStockQty(binding.editTextQty.text.toString().toInt())
-        buzz()}
+
+        binding.editTextName.doAfterTextChanged {
+            viewModel.newProductName(binding.editTextName.text.toString())
+        }
+        binding.editTextDescr.doAfterTextChanged {
+            viewModel.newProductDescr(binding.editTextDescr.text.toString())
+        }
+        binding.editTextStock.doAfterTextChanged {
+            viewModel.newStockQty(binding.editTextStock.text.toString())
+        }
+        binding.editTextPrice.doAfterTextChanged {
+            viewModel.newPrice(binding.editTextPrice.text.toString())
+        }
         return binding.root
-//        return inflater.inflate(R.layout.fragment_product, container, false)
     }
 
     private fun buzz() {

@@ -13,53 +13,56 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/productName"/>
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:hint="name"
             android:text="@{productViewModel.name}" />
 
         <TextView
-            android:id="@+id/Price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/productPrice"/>
+        <EditText
+            android:id="@+id/editTextPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:imeOptions="actionNext"
+            android:hint="price"
             android:text="@{``+productViewModel.price}" />
 
         <TextView
-            android:id="@+id/Stock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{productViewModel.stockString}" />
+            android:text="@string/productStock"/>
+        <EditText
+            android:id="@+id/editTextStock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:hint="stock qty"
+            android:text="@{``+productViewModel.stock}" />
 
         <TextView
-            android:id="@+id/Descr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/productDescr"/>
+        <EditText
+            android:id="@+id/editTextDescr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:hint="description"
             android:text="@{productViewModel.descr}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/editTextQty"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:ems="10"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:text="@string/ProductInitQty" />
-
-            <Button
-                android:id="@+id/newStock"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:text="New Stock"></Button>
-        </LinearLayout>
 
         <Button
             android:id="@+id/SellOne"

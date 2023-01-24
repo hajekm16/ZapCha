@@ -7,16 +7,18 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import mucacho.apps.zapcha.R
+import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentStoreBinding
+import mucacho.apps.zapcha.product.ProductViewModel
 
 class StoreFragment : Fragment() {
-    private val PRODUCTID_ANANAS = 1
-    private val PRODUCTID_ZAZVOR = 2
-    private val PRODUCTID_BORUVKA = 3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,27 +26,30 @@ class StoreFragment : Fragment() {
     ): View? {
         val binding: FragmentStoreBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_store, container, false)
-        binding.AnanasButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                mucacho.apps.zapcha.store.StoreFragmentDirections.actionStoreFragmentToProductFragment(
-                    PRODUCTID_ANANAS
+
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = ZapchaDatabase.getInstance(application).zapchaDatabaseDao
+
+        val viewModelFactory = StoreViewModelFactory(dataSource,application)
+
+        val storeViewModel = ViewModelProvider(this, viewModelFactory).get(
+            StoreViewModel::class.java)
+
+        binding.storeViewModel = storeViewModel
+
+//        binding.setLifecycleOwner(this)
+
+        storeViewModel.navigateToProduct.observe(this, Observer {
+            product ->
+            product?.let {
+                this.findNavController().navigate(
+                    StoreFragmentDirections.actionStoreFragmentToProductFragment(product.productId)
                 )
-            )
-        )
-        binding.ZazvorButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                mucacho.apps.zapcha.store.StoreFragmentDirections.actionStoreFragmentToProductFragment(
-                    PRODUCTID_ZAZVOR
-                )
-            )
-        )
-        binding.BoruvkaButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                mucacho.apps.zapcha.store.StoreFragmentDirections.actionStoreFragmentToProductFragment(
-                    PRODUCTID_BORUVKA
-                )
-            )
-        )
+                storeViewModel.doneNavigating()
+            }
+        })
+
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
