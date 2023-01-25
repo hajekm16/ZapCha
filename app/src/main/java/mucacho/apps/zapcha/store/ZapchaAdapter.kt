@@ -14,9 +14,8 @@ class ZapchaAdapter : ListAdapter<ZapChaProduct, ZapchaAdapter.ViewHolder>(Zapch
     class ViewHolder private constructor(val binding: ListProductZapchaBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: ZapChaProduct) {
-            binding.productName.text = item.productName
-            binding.productStock.text = item.productStock.toString()
-            binding.productImage.setImageResource(R.drawable.zapcha)
+            binding.zapcha = item
+            binding.executePendingBindings()
         }
 
         companion object {

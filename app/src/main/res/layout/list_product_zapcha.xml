@@ -24,7 +24,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/zapcha"
-            tools:srcCompat="@drawable/zapcha" />
+            tools:srcCompat="@drawable/zapcha"
+            app:zapchaImage="@{zapcha}" />
 
         <TextView
             android:id="@+id/product_name"
@@ -35,7 +36,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/product_image"
             app:layout_constraintTop_toTopOf="@+id/product_image"
-            tools:text="ZapCha" />
+            tools:text="ZapCha"
+            app:productName="@{zapcha}"/>
 
         <TextView
             android:id="@+id/product_stock"
@@ -47,6 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/product_image"
             app:layout_constraintTop_toBottomOf="@+id/product_name"
-            tools:text="Skladem" />
+            tools:text="Skladem"
+            app:productStockString="@{zapcha}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
