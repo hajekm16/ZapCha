@@ -18,6 +18,8 @@ class StoreViewModel(val database: ZapchaDatabaseDao,
 
     private var selectedProduct = MutableLiveData<ZapChaProduct?>()
 
+    val products = database.getAllProducts()
+
     private val _navigateToProduct = MutableLiveData<ZapChaProduct?>()
     val navigateToProduct: LiveData<ZapChaProduct?>
         get() = _navigateToProduct

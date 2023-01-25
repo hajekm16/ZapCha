@@ -7,30 +7,40 @@
         name="storeViewModel"
         type="mucacho.apps.zapcha.store.StoreViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        android:orientation="vertical">
+        android:gravity="bottom"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
         <Button
             android:id="@+id/AnanasButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/productName_Ananas"
-            android:onClick="@{() -> storeViewModel.onSelectProduct(1)}"/>
+            android:onClick="@{() -> storeViewModel.onSelectProduct(1)}"
+            android:text="@string/productName_Ananas" />
+
         <Button
             android:id="@+id/ZazvorButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/productName_Zazvor"
-            android:onClick="@{() -> storeViewModel.onSelectProduct(2)}"/>
+            android:onClick="@{() -> storeViewModel.onSelectProduct(2)}"
+            android:text="@string/productName_Zazvor" />
+
         <Button
             android:id="@+id/BoruvkaButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/productName_Boruvka"
-            android:onClick="@{() -> storeViewModel.onSelectProduct(3)}"/>
+            android:onClick="@{() -> storeViewModel.onSelectProduct(3)}"
+            android:text="@string/productName_Boruvka" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/product_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 </layout>

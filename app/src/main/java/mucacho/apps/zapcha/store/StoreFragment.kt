@@ -38,9 +38,9 @@ class StoreFragment : Fragment() {
 
         binding.storeViewModel = storeViewModel
 
-//        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
-        storeViewModel.navigateToProduct.observe(this, Observer {
+        storeViewModel.navigateToProduct.observe(viewLifecycleOwner, Observer {
             product ->
             product?.let {
                 this.findNavController().navigate(
@@ -67,6 +67,16 @@ class StoreFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        val adapter = ZapchaAdapter()
+        binding.productList.adapter = adapter
+
+        storeViewModel.products.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
+
         return binding.root
 
     }
