@@ -69,11 +69,17 @@ class StoreFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val adapter = ZapchaAdapter(ZapchaProductListener {
-            productId -> this.findNavController().navigate(
-                StoreFragmentDirections.actionStoreFragmentToProductFragment(productId)
-            )
+            productId -> storeViewModel.onZapchaProductClicked(productId)
         })
         binding.productList.adapter = adapter
+
+        storeViewModel.navigateToProductDetail.observe(viewLifecycleOwner, Observer {
+            product ->
+            product?.let {
+                this.findNavController().navigate(StoreFragmentDirections.actionStoreFragmentToProductFragment(product))
+                storeViewModel.onZapchaProductNavigated()
+            }
+        })
 
         storeViewModel.products.observe(viewLifecycleOwner, Observer {
             it?.let {

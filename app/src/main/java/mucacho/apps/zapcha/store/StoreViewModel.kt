@@ -80,9 +80,17 @@ class StoreViewModel(val database: ZapchaDatabaseDao,
         }
     }
 
-//    fun onZapchaProductClicked(id: Long) {
-//        _navigateToProduct.value = id
-//    }
+    private val _navigateToProductDetail = MutableLiveData<Long?>()
+    val navigateToProductDetail
+    get() = _navigateToProductDetail
+
+    fun onZapchaProductClicked(id: Long) {
+        _navigateToProductDetail.value = id
+    }
+
+    fun onZapchaProductNavigated() {
+        _navigateToProductDetail.value = null
+    }
 
     override fun onCleared() {
         super.onCleared()
