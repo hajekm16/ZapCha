@@ -80,6 +80,10 @@ class StoreViewModel(val database: ZapchaDatabaseDao,
         }
     }
 
+//    fun onZapchaProductClicked(id: Long) {
+//        _navigateToProduct.value = id
+//    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

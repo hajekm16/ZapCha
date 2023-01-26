@@ -7,11 +7,15 @@
         <variable
             name="zapcha"
             type="mucacho.apps.zapcha.database.ZapChaProduct" />
+        <variable
+            name="clickListener"
+            type="mucacho.apps.zapcha.store.ZapchaProductListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(zapcha)}">
 
         <ImageView
             android:id="@+id/product_image"
