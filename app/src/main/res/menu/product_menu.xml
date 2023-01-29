@@ -9,7 +9,7 @@
         android:visible="true"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/clear"
+        android:id="@+id/Delete"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/delete"

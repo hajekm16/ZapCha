@@ -97,6 +97,7 @@ class ProductViewModel(
         uiScope.launch {
             val oldProduct = currentProduct.value ?: return@launch
             delete(oldProduct)
+            _navigateToStore.value = true
         }
     }
 

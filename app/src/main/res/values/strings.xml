@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_partners">Chci ZapChu</string>
+    <string name="add_product">Add ZapCha</string>
     <string name="title_news">Co je nového?</string>
     <string name="share">Share it</string>
     <string name="share_product_text">ZapCha %1$s je bomba!</string>
@@ -14,5 +15,6 @@
     <string name="productPrice">Product price:</string>
     <string name="productDescr">Product description:</string>
     <string name="productStock">Product stock quantity:</string>
-    <string name="delete">Smazat vse</string>
+    <string name="deleteAll">Smazat vse</string>
+    <string name="delete">Smazat</string>
 </resources>

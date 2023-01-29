@@ -44,40 +44,14 @@ class StoreViewModel(val database: ZapchaDatabaseDao,
     }
 
     fun onSelectProduct(productId : Long) {
+//        TODO opravit otevreni detailu pri zalozeni noveho produktu
         uiScope.launch {
             selectedProduct.value = getCurrentProductFromDatabase(productId)
             if (selectedProduct.value == null) {
-                val product : ZapChaProduct
-                when (productId){
-                    1L -> {
-                        product = ZapChaProduct(productId,
-                            "Ananas",
-                            "Tohle je trosku exotica...",
-                            55,
-                            6)
-                    }
-                    2L -> {
-                        product = ZapChaProduct(productId,
-                            "Zazvor",
-                            "Tohle nakopne imunitu...",
-                            55,
-                            10)
-                    }
-                    3L -> {
-                        product = ZapChaProduct(productId,
-                            "Boruvka",
-                            "Tohle je porce antioxidantu...",
-                            55,
-                            8)
-                    }
-                    else -> {
-                        product = ZapChaProduct(productId,"","",0,0)
-                    }
+                selectedProduct.value = insert(ZapChaProduct(0,"","",0,0))
                 }
-                selectedProduct.value = insert(product)
             }
-            _navigateToProduct.value = selectedProduct.value
-        }
+        _navigateToProductDetail.value = selectedProduct.value?.productId
     }
 
     private val _navigateToProductDetail = MutableLiveData<Long?>()
@@ -95,5 +69,18 @@ class StoreViewModel(val database: ZapchaDatabaseDao,
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun onClear() {
+        uiScope.launch {
+            clear()
+            selectedProduct.value = null
+        }
+    }
+
+    private suspend fun clear() {
+        withContext(Dispatchers.IO) {
+            database.clear()
+        }
     }
 }

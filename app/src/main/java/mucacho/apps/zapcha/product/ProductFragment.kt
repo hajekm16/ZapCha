@@ -82,8 +82,9 @@ class ProductFragment : Fragment() {
                     R.id.share -> {
                         shareSuccess()
                         true}
-                    R.id.clear -> {
-                        deleteAllProducts()
+                    R.id.Delete -> {
+                        viewModel.onDeleteProduct()
+                        buzz()
                         true}
                     else -> false
                 }
@@ -103,9 +104,6 @@ class ProductFragment : Fragment() {
                 startActivity(getShareIntent())
             }
 
-            private fun deleteAllProducts() {
-                viewModel.onClear()
-            }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         binding.editTextName.doAfterTextChanged {

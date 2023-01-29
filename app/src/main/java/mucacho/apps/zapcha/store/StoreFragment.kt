@@ -60,12 +60,21 @@ class StoreFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Handle the menu selection
                 return when (menuItem.itemId) {
-                    R.id.partnersFragment -> {
-                        return NavigationUI.onNavDestinationSelected(menuItem!!,view!!.findNavController())
+                    R.id.productFragment -> {
+                        storeViewModel.onSelectProduct(0)
+                        true
                     }
+                    R.id.clear -> {
+                        deleteAllProducts()
+                        true}
                     else -> false
                 }
             }
+
+            private fun deleteAllProducts() {
+                storeViewModel.onClear()
+            }
+
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val adapter = ZapchaAdapter(ZapchaProductListener {
