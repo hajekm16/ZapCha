@@ -33,7 +33,7 @@
         tools:layout="@layout/fragment_partners" />
     <fragment
         android:id="@+id/newsFragment"
-        android:name="mucacho.apps.zapcha.NewsFragment"
+        android:name="mucacho.apps.zapcha.news.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
 </navigation>

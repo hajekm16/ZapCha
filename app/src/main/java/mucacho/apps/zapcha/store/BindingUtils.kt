@@ -23,6 +23,16 @@ fun TextView.setProductName(item: ZapChaProduct?){
 @BindingAdapter("zapchaImage")
 fun ImageView.setZapchaImage(item: ZapChaProduct?){
     item?.let {
-        setImageResource(R.drawable.zapcha)
+        when (item.productName) {
+            "zazvor" -> {
+                setImageResource(R.drawable.zazvor)
+            }
+            "ananas" -> {
+                setImageResource(R.drawable.ananas)
+            }
+            else -> {
+                setImageResource(R.drawable.zapcha)
+            }
+        }
     }
 }

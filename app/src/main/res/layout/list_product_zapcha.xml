@@ -27,9 +27,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/zapcha"
-            tools:srcCompat="@drawable/zapcha"
-            app:zapchaImage="@{zapcha}" />
+            app:srcCompat="@drawable/zazvor"
+            app:zapchaImage="@{zapcha}"
+            tools:srcCompat="@drawable/zapcha" />
 
         <TextView
             android:id="@+id/product_name"
