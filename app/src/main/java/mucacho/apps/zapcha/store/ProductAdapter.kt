@@ -5,15 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import mucacho.apps.zapcha.database.ZapChaProduct
+import mucacho.apps.zapcha.database.ZapChaDatabaseProduct
 import mucacho.apps.zapcha.databinding.ListProductZapchaBinding
 
-class ZapchaAdapter(val clickListener:ZapchaProductListener) : ListAdapter<ZapChaProduct, ZapchaAdapter.ViewHolder>(ZapchaProductDiffCallback()) {
+//listAdapter for products
 
-    class ViewHolder private constructor(val binding: ListProductZapchaBinding) : RecyclerView.ViewHolder(binding.root){
+class ProductAdapter(private val clickListener:ZapchaProductListener) : ListAdapter<ZapChaDatabaseProduct, ProductAdapter.ViewHolder>(ZapchaProductDiffCallback()) {
 
-        fun bind(item: ZapChaProduct, clickListener: ZapchaProductListener) {
-            binding.zapcha = item
+    class ViewHolder private constructor(private val binding: ListProductZapchaBinding) : RecyclerView.ViewHolder(binding.root){
+
+        fun bind(item: ZapChaDatabaseProduct, clickListener: ZapchaProductListener) {
+            binding.product = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -38,16 +40,16 @@ class ZapchaAdapter(val clickListener:ZapchaProductListener) : ListAdapter<ZapCh
 }
 
 /*porovnani polozek a vyhodnoceni nejnizsi pocet nutnych zmen*/
-class ZapchaProductDiffCallback :DiffUtil.ItemCallback<ZapChaProduct>() {
-    override fun areItemsTheSame(oldItem: ZapChaProduct, newItem: ZapChaProduct): Boolean {
+class ZapchaProductDiffCallback :DiffUtil.ItemCallback<ZapChaDatabaseProduct>() {
+    override fun areItemsTheSame(oldItem: ZapChaDatabaseProduct, newItem: ZapChaDatabaseProduct): Boolean {
         return oldItem.productId == newItem.productId
     }
 
-    override fun areContentsTheSame(oldItem: ZapChaProduct, newItem: ZapChaProduct): Boolean {
+    override fun areContentsTheSame(oldItem: ZapChaDatabaseProduct, newItem: ZapChaDatabaseProduct): Boolean {
         return oldItem == newItem
     }
 }
 
 class ZapchaProductListener(val clickListener: (productId: Long) -> Unit){
-    fun onClick(product: ZapChaProduct) = clickListener(product.productId)
+    fun onClick(product: ZapChaDatabaseProduct) = clickListener(product.productId)
 }

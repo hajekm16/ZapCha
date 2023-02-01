@@ -7,6 +7,7 @@
     <string name="title_news">Co je nového?</string>
     <string name="share">Share it</string>
     <string name="share_product_text">ZapCha %1$s je bomba!</string>
+    <string name="stock_text">Skladem: %1$s </string>
     <string name="sell_product_text">Další je pryč :)</string>
     <string name="productName_Ananas">Ananas</string>
     <string name="productName_Zazvor">Zazvor</string>
@@ -17,4 +18,10 @@
     <string name="productStock">Product stock quantity:</string>
     <string name="deleteAll">Smazat vse</string>
     <string name="delete">Smazat</string>
+    <string name="nameHint">name</string>
+    <string name="priceHint">price</string>
+    <string name="stockHint">stock qty</string>
+    <string name="descriptionHint">description</string>
+    <string name="product_sell">Sell one bottle</string>
+    <string name="product_save">Save</string>
 </resources>

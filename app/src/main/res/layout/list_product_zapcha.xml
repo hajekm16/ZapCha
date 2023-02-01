@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="zapcha"
-            type="mucacho.apps.zapcha.database.ZapChaProduct" />
+            name="product"
+            type="mucacho.apps.zapcha.database.ZapChaDatabaseProduct" />
         <variable
             name="clickListener"
             type="mucacho.apps.zapcha.store.ZapchaProductListener" />
@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> clickListener.onClick(zapcha)}">
+        android:onClick="@{() -> clickListener.onClick(product)}">
 
         <ImageView
             android:id="@+id/product_image"
@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/zazvor"
-            app:zapchaImage="@{zapcha}"
+            app:productImage="@{product}"
             tools:srcCompat="@drawable/zapcha" />
 
         <TextView
@@ -41,7 +41,7 @@
             app:layout_constraintStart_toEndOf="@+id/product_image"
             app:layout_constraintTop_toTopOf="@+id/product_image"
             tools:text="ZapCha"
-            app:productName="@{zapcha}"/>
+            app:productName="@{product}"/>
 
         <TextView
             android:id="@+id/product_stock"
@@ -54,6 +54,6 @@
             app:layout_constraintStart_toEndOf="@+id/product_image"
             app:layout_constraintTop_toBottomOf="@+id/product_name"
             tools:text="Skladem"
-            app:productStockString="@{zapcha}"/>
+            app:productStockString="@{product}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,12 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-//jakou pouzit entitu
-@Database(entities = [ZapChaProduct::class], version = 1)
+//database entity
+@Database(entities = [ZapChaDatabaseProduct::class], version = 1)
 abstract class ZapchaDatabase : RoomDatabase() {
-//    jake pouzit Dao
+//    Dao for accessing DB
     abstract val zapchaDatabaseDao: ZapchaDatabaseDao
-//    object pro pristup k metodam bez instance tridy
+//    object for access methods without class instance
     companion object{
 //        zajistime vzdy aktualni hodnotu instance
         @Volatile

@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import kotlinx.coroutines.*
-import mucacho.apps.zapcha.database.ZapChaProduct
+import mucacho.apps.zapcha.database.ZapChaDatabaseProduct
 import mucacho.apps.zapcha.database.ZapchaDatabaseDao
 
+// viewmodel for single product
 class ProductViewModel(
     val productId: Long,
     val database: ZapchaDatabaseDao,
@@ -19,7 +19,7 @@ class ProductViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private var currentProduct = MutableLiveData<ZapChaProduct?>()
+    private var selectedProduct = MutableLiveData<ZapChaDatabaseProduct?>()
 
     private val _navigateToStore = MutableLiveData<Boolean?>()
 
@@ -46,8 +46,6 @@ class ProductViewModel(
     val stock : LiveData<Int>
         get() = _stock
 
-    val stockString = Transformations.map(stock,{onStock -> stockToString(onStock)})
-
     private var _showSnackbarEvent = MutableLiveData<Boolean>()
 
     val showSnackBarEvent: LiveData<Boolean>
@@ -59,20 +57,20 @@ class ProductViewModel(
 
     init{
 //        one time setting
-        initializeCurrentProduct(productId)
+        initializeSelectedProduct(productId)
     }
 
-    private fun initializeCurrentProduct(Id : Long) {
+    private fun initializeSelectedProduct(Id : Long) {
         uiScope.launch {
-            currentProduct.value = getCurrentProductFromDatabase(Id)
-            _name.value = currentProduct.value!!.productName
-            _price.value = currentProduct.value!!.productPrice
-            _descr.value = currentProduct.value!!.productDescr
-            _stock.value = currentProduct.value!!.productStock
+            selectedProduct.value = getSelectedProductFromDatabase(Id)
+            _name.value = selectedProduct.value!!.productName
+            _price.value = selectedProduct.value!!.productPrice
+            _descr.value = selectedProduct.value!!.productDescr
+            _stock.value = selectedProduct.value!!.productStock
         }
     }
 
-    private suspend fun getCurrentProductFromDatabase(Id: Long): ZapChaProduct? {
+    private suspend fun getSelectedProductFromDatabase(Id: Long): ZapChaDatabaseProduct {
         return withContext(Dispatchers.IO) {
             val product = database.get(Id)
             product
@@ -82,7 +80,7 @@ class ProductViewModel(
     fun onSaveProduct(){
         uiScope.launch {
             withContext(Dispatchers.IO){
-                val product = database.get(productId) ?: return@withContext
+                val product = database.get(productId)
                 product.productStock = stock.value!!
                 product.productDescr = descr.value!!
                 product.productName = name.value!!
@@ -95,13 +93,13 @@ class ProductViewModel(
 
     fun onDeleteProduct(){
         uiScope.launch {
-            val oldProduct = currentProduct.value ?: return@launch
+            val oldProduct = selectedProduct.value ?: return@launch
             delete(oldProduct)
             _navigateToStore.value = true
         }
     }
 
-    private suspend fun delete(product: ZapChaProduct) {
+    private suspend fun delete(product: ZapChaDatabaseProduct) {
         withContext(Dispatchers.IO) {
             database.delete(product)
         }
@@ -110,7 +108,7 @@ class ProductViewModel(
     fun onClear() {
         uiScope.launch {
             clear()
-            currentProduct.value = null
+            selectedProduct.value = null
         }
     }
 
@@ -120,9 +118,6 @@ class ProductViewModel(
         }
     }
 
-    private fun stockToString(qty : Int) : String{
-        return "Na sklade: " + qty.toString()
-    }
     fun newStockQty(newQty: String){
         if ((newQty != "null") && (newQty != "")) {
             _stock.value = newQty.toInt()

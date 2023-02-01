@@ -5,8 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
-import mucacho.apps.zapcha.database.ZapChaProduct
+import mucacho.apps.zapcha.database.ZapChaDatabaseProduct
 import mucacho.apps.zapcha.database.ZapchaDatabaseDao
+
+//viewmodel for list of products
 
 class StoreViewModel(val database: ZapchaDatabaseDao,
                      application: Application
@@ -16,29 +18,29 @@ class StoreViewModel(val database: ZapchaDatabaseDao,
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private var selectedProduct = MutableLiveData<ZapChaProduct?>()
+    private var selectedProduct = MutableLiveData<ZapChaDatabaseProduct?>()
 
     val products = database.getAllProducts()
 
-    private val _navigateToProduct = MutableLiveData<ZapChaProduct?>()
-    val navigateToProduct: LiveData<ZapChaProduct?>
+    private val _navigateToProduct = MutableLiveData<ZapChaDatabaseProduct?>()
+    val navigateToProduct: LiveData<ZapChaDatabaseProduct?>
         get() = _navigateToProduct
 
     fun doneNavigating() {
         _navigateToProduct.value = null
     }
 
-    private suspend fun getCurrentProductFromDatabase(Id: Long): ZapChaProduct? {
+    private suspend fun getCurrentProductFromDatabase(Id: Long): ZapChaDatabaseProduct {
         return withContext(Dispatchers.IO) {
-            var product = database.get(Id)
+            val product = database.get(Id)
             product
         }
     }
 
-    private suspend fun insert(product: ZapChaProduct): ZapChaProduct?{
+    private suspend fun insert(product: ZapChaDatabaseProduct): ZapChaDatabaseProduct {
         return withContext(Dispatchers.IO){
             database.insert(product)
-            var productout = database.get(product.productId)
+            val productout = database.get(product.productId)
             productout
         }
     }
@@ -48,7 +50,7 @@ class StoreViewModel(val database: ZapchaDatabaseDao,
         uiScope.launch {
             selectedProduct.value = getCurrentProductFromDatabase(productId)
             if (selectedProduct.value == null) {
-                selectedProduct.value = insert(ZapChaProduct(0,"","",0,0))
+                selectedProduct.value = insert(ZapChaDatabaseProduct(0,"","",0,0))
                 }
             }
         _navigateToProductDetail.value = selectedProduct.value?.productId

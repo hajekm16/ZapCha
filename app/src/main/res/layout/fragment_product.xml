@@ -19,10 +19,10 @@
         <EditText
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:inputType="text"
             android:imeOptions="actionNext"
-            android:hint="name"
+            android:hint="@string/nameHint"
             android:text="@{productViewModel.name}" />
 
         <TextView
@@ -32,10 +32,10 @@
         <EditText
             android:id="@+id/editTextPrice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:inputType="number"
             android:imeOptions="actionNext"
-            android:hint="price"
+            android:hint="@string/priceHint"
             android:text="@{``+productViewModel.price}" />
 
         <TextView
@@ -45,10 +45,10 @@
         <EditText
             android:id="@+id/editTextStock"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:imeOptions="actionNext"
             android:inputType="number"
-            android:hint="stock qty"
+            android:hint="@string/stockHint"
             android:text="@{``+productViewModel.stock}" />
 
         <TextView
@@ -58,10 +58,10 @@
         <EditText
             android:id="@+id/editTextDescr"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:inputType="text"
             android:imeOptions="actionDone"
-            android:hint="description"
+            android:hint="@string/descriptionHint"
             android:text="@{productViewModel.descr}" />
 
         <Button
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_gravity="center"
-            android:text="Sell one bottle"
+            android:text="@string/product_sell"
             android:onClick="@{() -> productViewModel.sellOneBottle()}"/>
 
         <Button
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_gravity="center"
-            android:text="Save"
+            android:text="@string/product_save"
             android:onClick="@{() -> productViewModel.onSaveProduct()}"/>
 
     </LinearLayout>

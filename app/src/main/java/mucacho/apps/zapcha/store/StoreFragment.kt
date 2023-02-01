@@ -2,28 +2,26 @@ package mucacho.apps.zapcha.store
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentStoreBinding
-import mucacho.apps.zapcha.product.ProductViewModel
+
+//fragment for list of products
 
 class StoreFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding: FragmentStoreBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_store, container, false)
 
@@ -33,8 +31,7 @@ class StoreFragment : Fragment() {
 
         val viewModelFactory = StoreViewModelFactory(dataSource,application)
 
-        val storeViewModel = ViewModelProvider(this, viewModelFactory).get(
-            StoreViewModel::class.java)
+        val storeViewModel = ViewModelProvider(this, viewModelFactory)[StoreViewModel::class.java]
 
         binding.storeViewModel = storeViewModel
 
@@ -77,7 +74,7 @@ class StoreFragment : Fragment() {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val adapter = ZapchaAdapter(ZapchaProductListener {
+        val adapter = ProductAdapter(ZapchaProductListener {
             productId -> storeViewModel.onZapchaProductClicked(productId)
         })
         binding.productList.adapter = adapter

@@ -13,7 +13,6 @@ import androidx.core.content.getSystemService
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -22,6 +21,8 @@ import com.google.android.material.snackbar.Snackbar
 import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentProductBinding
+
+//fragment to display and edit single product
 
 class ProductFragment : Fragment() {
 
@@ -32,7 +33,7 @@ class ProductFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding: FragmentProductBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_product, container, false)
 //        reference to the application
@@ -44,25 +45,28 @@ class ProductFragment : Fragment() {
 
         val viewModelFactory = ProductViewModelFactory(arguments.productId,dataSource,application)
 
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(ProductViewModel::class.java)
-//        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-        binding.productViewModel = viewModel
-        viewModel.navigateToStore.observe(viewLifecycleOwner, Observer {
+        val productViewModel = ViewModelProvider(this, viewModelFactory)[ProductViewModel::class.java]
+
+        binding.productViewModel = productViewModel
+
+        productViewModel.navigateToStore.observe(viewLifecycleOwner, Observer {
             if (it==true){
                 this.findNavController().navigate(ProductFragmentDirections.actionProductFragmentToStoreFragment())
-                viewModel.doneNavigating()
+                productViewModel.doneNavigating()
             }
         })
-        viewModel.showSnackBarEvent.observe(this, Observer {
+
+        productViewModel.showSnackBarEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 Snackbar.make(
                     requireActivity().findViewById(android.R.id.content),
                     getString(R.string.sell_product_text),
                     Snackbar.LENGTH_SHORT
                 ).show()
-                viewModel.doneShowingSnackbar()
+                productViewModel.doneShowingSnackbar()
             }
         })
+
         binding.lifecycleOwner = this
 
         val menuHost: MenuHost = requireActivity()
@@ -83,7 +87,7 @@ class ProductFragment : Fragment() {
                         shareSuccess()
                         true}
                     R.id.Delete -> {
-                        viewModel.onDeleteProduct()
+                        productViewModel.onDeleteProduct()
                         buzz()
                         true}
                     else -> false
@@ -91,12 +95,10 @@ class ProductFragment : Fragment() {
             }
 
             private fun getShareIntent() : Intent {
-//                var args = ProductFragmentArgs.fromBundle(requireArguments())
                 return ShareCompat.IntentBuilder(requireActivity())
                     .setType("text/plain")
                     .setChooserTitle("Jak sdílet: ")
-//                    .setText(getString(R.string.share_product_text, args.productId))
-                    .setText(getString(R.string.share_product_text, viewModel.name))
+                    .setText(getString(R.string.share_product_text, productViewModel.name))
                     .createChooserIntent()
             }
 
@@ -107,16 +109,16 @@ class ProductFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         binding.editTextName.doAfterTextChanged {
-            viewModel.newProductName(binding.editTextName.text.toString())
+            productViewModel.newProductName(binding.editTextName.text.toString())
         }
         binding.editTextDescr.doAfterTextChanged {
-            viewModel.newProductDescr(binding.editTextDescr.text.toString())
+            productViewModel.newProductDescr(binding.editTextDescr.text.toString())
         }
         binding.editTextStock.doAfterTextChanged {
-            viewModel.newStockQty(binding.editTextStock.text.toString())
+            productViewModel.newStockQty(binding.editTextStock.text.toString())
         }
         binding.editTextPrice.doAfterTextChanged {
-            viewModel.newPrice(binding.editTextPrice.text.toString())
+            productViewModel.newPrice(binding.editTextPrice.text.toString())
         }
         return binding.root
     }

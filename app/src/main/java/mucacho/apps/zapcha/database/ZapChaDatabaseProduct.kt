@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "zapcha_product_table")
-data class ZapChaProduct(
+data class ZapChaDatabaseProduct(
     @PrimaryKey(autoGenerate = true)
     var productId: Long = 0L,
     @ColumnInfo(name = "product_name")
