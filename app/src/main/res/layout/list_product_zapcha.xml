@@ -6,7 +6,7 @@
     <data>
         <variable
             name="product"
-            type="mucacho.apps.zapcha.database.ZapChaDatabaseProduct" />
+            type="mucacho.apps.zapcha.domain.Product" />
         <variable
             name="clickListener"
             type="mucacho.apps.zapcha.store.ZapchaProductListener" />

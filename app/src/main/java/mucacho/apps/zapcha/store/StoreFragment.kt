@@ -27,7 +27,7 @@ class StoreFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        val dataSource = ZapchaDatabase.getInstance(application).zapchaDatabaseDao
+        val dataSource = ZapchaDatabase.getInstance(application)
 
         val viewModelFactory = StoreViewModelFactory(dataSource,application)
 
@@ -36,16 +36,6 @@ class StoreFragment : Fragment() {
         binding.storeViewModel = storeViewModel
 
         binding.lifecycleOwner = this
-
-        storeViewModel.navigateToProduct.observe(viewLifecycleOwner, Observer {
-            product ->
-            product?.let {
-                this.findNavController().navigate(
-                    StoreFragmentDirections.actionStoreFragmentToProductFragment(product.productId)
-                )
-                storeViewModel.doneNavigating()
-            }
-        })
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -58,18 +48,14 @@ class StoreFragment : Fragment() {
                 // Handle the menu selection
                 return when (menuItem.itemId) {
                     R.id.productFragment -> {
-                        storeViewModel.onSelectProduct(0)
+                        storeViewModel.onNewProduct()
                         true
                     }
                     R.id.clear -> {
-                        deleteAllProducts()
+                        storeViewModel.onDeleteAllProducts()
                         true}
                     else -> false
                 }
-            }
-
-            private fun deleteAllProducts() {
-                storeViewModel.onClear()
             }
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -77,6 +63,7 @@ class StoreFragment : Fragment() {
         val adapter = ProductAdapter(ZapchaProductListener {
             productId -> storeViewModel.onZapchaProductClicked(productId)
         })
+
         binding.productList.adapter = adapter
 
         storeViewModel.navigateToProductDetail.observe(viewLifecycleOwner, Observer {
@@ -94,7 +81,5 @@ class StoreFragment : Fragment() {
         })
 
         return binding.root
-
     }
-
 }

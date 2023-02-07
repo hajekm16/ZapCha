@@ -6,12 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import mucacho.apps.zapcha.database.ZapChaDatabaseProduct
+import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.database.ZapchaDatabaseDao
+import mucacho.apps.zapcha.database.asDomainModel
+import mucacho.apps.zapcha.domain.Product
+import mucacho.apps.zapcha.repository.ProductsRepository
 
 // viewmodel for single product
 class ProductViewModel(
     val productId: Long,
-    val database: ZapchaDatabaseDao,
+    val database: ZapchaDatabase,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -19,7 +23,9 @@ class ProductViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private var selectedProduct = MutableLiveData<ZapChaDatabaseProduct?>()
+    private var selectedProduct = MutableLiveData<Product?>()
+
+    private val productsRepository = ProductsRepository(database)
 
     private val _navigateToStore = MutableLiveData<Boolean?>()
 
@@ -62,59 +68,26 @@ class ProductViewModel(
 
     private fun initializeSelectedProduct(Id : Long) {
         uiScope.launch {
-            selectedProduct.value = getSelectedProductFromDatabase(Id)
-            _name.value = selectedProduct.value!!.productName
-            _price.value = selectedProduct.value!!.productPrice
-            _descr.value = selectedProduct.value!!.productDescr
-            _stock.value = selectedProduct.value!!.productStock
-        }
-    }
-
-    private suspend fun getSelectedProductFromDatabase(Id: Long): ZapChaDatabaseProduct {
-        return withContext(Dispatchers.IO) {
-            val product = database.get(Id)
-            product
+            selectedProduct.value = productsRepository.getSelectedProduct(Id)
+            _name.value = selectedProduct.value!!.name
+            _price.value = selectedProduct.value!!.price
+            _descr.value = selectedProduct.value!!.description
+            _stock.value = selectedProduct.value!!.stock
         }
     }
 
     fun onSaveProduct(){
         uiScope.launch {
-            withContext(Dispatchers.IO){
-                val product = database.get(productId)
-                product.productStock = stock.value!!
-                product.productDescr = descr.value!!
-                product.productName = name.value!!
-                product.productPrice = price.value!!
-                database.update(product)
-            }
-            _navigateToStore.value = true
+            productsRepository.saveProduct(Product(productId,name.value!!,descr.value!!,stock.value!!,price.value!!))
         }
+        _navigateToStore.value = true
     }
 
     fun onDeleteProduct(){
         uiScope.launch {
             val oldProduct = selectedProduct.value ?: return@launch
-            delete(oldProduct)
+            productsRepository.deleteSelectedProduct(oldProduct)
             _navigateToStore.value = true
-        }
-    }
-
-    private suspend fun delete(product: ZapChaDatabaseProduct) {
-        withContext(Dispatchers.IO) {
-            database.delete(product)
-        }
-    }
-
-    fun onClear() {
-        uiScope.launch {
-            clear()
-            selectedProduct.value = null
-        }
-    }
-
-    private suspend fun clear() {
-        withContext(Dispatchers.IO) {
-            database.clear()
         }
     }
 

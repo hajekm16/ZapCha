@@ -26,10 +26,6 @@ import mucacho.apps.zapcha.databinding.FragmentProductBinding
 
 class ProductFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ProductFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,7 +37,7 @@ class ProductFragment : Fragment() {
 
         val arguments = ProductFragmentArgs.fromBundle(requireArguments())
 //        reference to the datasource
-        val dataSource = ZapchaDatabase.getInstance(application).zapchaDatabaseDao
+        val dataSource = ZapchaDatabase.getInstance(application)
 
         val viewModelFactory = ProductViewModelFactory(arguments.productId,dataSource,application)
 

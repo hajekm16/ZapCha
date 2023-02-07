@@ -3,11 +3,12 @@ package mucacho.apps.zapcha.product
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.database.ZapchaDatabaseDao
 
 class ProductViewModelFactory(
     private val productId : Long,
-    private val dataSource: ZapchaDatabaseDao,
+    private val dataSource: ZapchaDatabase,
     private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProductViewModel::class.java)){
