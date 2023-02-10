@@ -4,15 +4,16 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.*
-import mucacho.apps.zapcha.database.ZapChaDatabaseProduct
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import mucacho.apps.zapcha.database.ZapchaDatabase
-import mucacho.apps.zapcha.database.ZapchaDatabaseDao
-import mucacho.apps.zapcha.database.asDomainModel
 import mucacho.apps.zapcha.domain.Product
+import mucacho.apps.zapcha.network.Service
 import mucacho.apps.zapcha.repository.ProductsRepository
 
-// viewmodel for single product
+// view model for single product
 class ProductViewModel(
     val productId: Long,
     val database: ZapchaDatabase,
@@ -28,6 +29,8 @@ class ProductViewModel(
     private val productsRepository = ProductsRepository(database)
 
     private val _navigateToStore = MutableLiveData<Boolean?>()
+
+    private val service = Service()
 
     val navigateToStore : LiveData<Boolean?>
         get() = _navigateToStore
@@ -64,6 +67,7 @@ class ProductViewModel(
     init{
 //        one time setting
         initializeSelectedProduct(productId)
+        service.initializeDbRef()
     }
 
     private fun initializeSelectedProduct(Id : Long) {
@@ -77,17 +81,21 @@ class ProductViewModel(
     }
 
     fun onSaveProduct(){
-        uiScope.launch {
-            productsRepository.saveProduct(Product(productId,name.value!!,descr.value!!,stock.value!!,price.value!!))
+        if (service.writeProduct(productId,name.value!!,descr.value!!,stock.value!!,price.value!!)) {
+            uiScope.launch {
+                productsRepository.saveProduct(Product(productId,name.value!!,descr.value!!,stock.value!!,price.value!!))
+            }
+            _navigateToStore.value = true
         }
-        _navigateToStore.value = true
     }
 
     fun onDeleteProduct(){
-        uiScope.launch {
-            val oldProduct = selectedProduct.value ?: return@launch
-            productsRepository.deleteSelectedProduct(oldProduct)
-            _navigateToStore.value = true
+        if (service.deleteProduct(productId)) {
+            uiScope.launch {
+                val oldProduct = selectedProduct.value ?: return@launch
+                productsRepository.deleteSelectedProduct(oldProduct)
+                _navigateToStore.value = true
+            }
         }
     }
 

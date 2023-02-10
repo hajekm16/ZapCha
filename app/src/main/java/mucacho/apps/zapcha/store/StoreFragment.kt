@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentStoreBinding
+import mucacho.apps.zapcha.repository.ProductsRepository
 
 //fragment for list of products
 
@@ -78,6 +79,10 @@ class StoreFragment : Fragment() {
             it?.let {
                 adapter.submitList(it)
             }
+        })
+
+        storeViewModel.allProducts.observe(viewLifecycleOwner, Observer {
+            storeViewModel.loadFirebaseProducts()
         })
 
         return binding.root

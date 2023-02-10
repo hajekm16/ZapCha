@@ -1,8 +1,20 @@
 package mucacho.apps.zapcha.domain
 
-import androidx.lifecycle.Transformations.map
 import mucacho.apps.zapcha.database.ZapChaDatabaseProduct
 
+data class ProductList(val products : List<Product>) {
+    fun asDatabaseModel(): Array<ZapChaDatabaseProduct> {
+        return products.map {
+            ZapChaDatabaseProduct(
+                productId = it.id,
+                productName = it.name,
+                productDescr = it.description,
+                productStock = it.stock,
+                productPrice = it.price
+            )
+        }.toTypedArray()
+    }
+}
 data class Product(val id: Long,
                  val name: String,
                  val description: String,

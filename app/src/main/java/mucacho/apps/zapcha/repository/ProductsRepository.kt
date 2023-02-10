@@ -1,13 +1,14 @@
 package mucacho.apps.zapcha.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import mucacho.apps.zapcha.database.ZapChaDatabaseProduct
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.database.asDomainModel
 import mucacho.apps.zapcha.domain.Product
+import mucacho.apps.zapcha.domain.ProductList
 
 class ProductsRepository(private val database: ZapchaDatabase) {
 
@@ -46,7 +47,12 @@ class ProductsRepository(private val database: ZapchaDatabase) {
         }
     }
 
-    suspend fun refreshProducts(){
-
+    suspend fun refreshProducts(products: MutableLiveData<List<Product>>){
+        if (products.value != null) {
+            withContext(Dispatchers.IO){
+                database.zapchaDatabaseDao.clear()
+                database.zapchaDatabaseDao.insertAll(*ProductList(products.value!!).asDatabaseModel())
+            }
+        }
     }
 }

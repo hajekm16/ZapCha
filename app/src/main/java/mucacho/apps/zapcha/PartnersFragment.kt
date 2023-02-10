@@ -10,10 +10,6 @@ import android.view.ViewGroup
 //TODO update fragment with relevant info
 class PartnersFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
