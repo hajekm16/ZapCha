@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "794656153190",
+    "firebase_url": "https://zapcha-7156a-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "zapcha-7156a",
+    "storage_bucket": "zapcha-7156a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794656153190:android:87bcd205f8a122e7f697a7",
+        "android_client_info": {
+          "package_name": "mucacho.apps.zapcha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794656153190-faq9trruphanq23hggk7nv1fufs6pd1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsabL8fwgv18HIxr_CN8qKqXzDZujtmOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794656153190-faq9trruphanq23hggk7nv1fufs6pd1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
