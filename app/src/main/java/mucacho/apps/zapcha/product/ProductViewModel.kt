@@ -120,8 +120,10 @@ class ProductViewModel(
     }
 
     fun sellOneBottle(){
-        _stock.value = _stock.value?.minus(1)
-        _showSnackbarEvent.value = true
+        if (_stock.value!! > 0) {
+            _stock.value = _stock.value?.minus(1)
+            _showSnackbarEvent.value = true
+        }
     }
 
     override fun onCleared() {
