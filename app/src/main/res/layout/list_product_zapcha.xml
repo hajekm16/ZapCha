@@ -35,25 +35,28 @@
             android:id="@+id/product_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.ProductTitle"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/product_image"
             app:layout_constraintTop_toTopOf="@+id/product_image"
-            tools:text="ZapCha"
-            app:productName="@{product}"/>
+            app:productName="@{product}"
+            tools:text="ZapCha" />
 
         <TextView
             android:id="@+id/product_stock"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.ProductInfo"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/product_image"
             app:layout_constraintTop_toBottomOf="@+id/product_name"
-            tools:text="Skladem"
-            app:productStockString="@{product}"/>
+            app:productStockString="@{product}"
+            tools:text="Skladem" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
