@@ -6,7 +6,7 @@
         android:id="@+id/productFragment"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/add_product"
-        app:showAsAction="ifRoom" />
+        android:visible="false"/>
     <item
         android:id="@+id/clear"
         android:enabled="true"
