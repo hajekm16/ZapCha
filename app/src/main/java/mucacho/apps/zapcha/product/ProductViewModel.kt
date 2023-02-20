@@ -1,6 +1,9 @@
 package mucacho.apps.zapcha.product
 
 import android.app.Application
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,7 +27,9 @@ class ProductViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private var selectedProduct = MutableLiveData<Product?>()
+    var selectedProduct = MutableLiveData<Product?>()
+
+    var productEdited by mutableStateOf(false)
 
     private val productsRepository = ProductsRepository(database)
 
@@ -38,22 +43,6 @@ class ProductViewModel(
     fun doneNavigating() {
         _navigateToStore.value = null
     }
-
-    private val _name = MutableLiveData<String>()
-    val name : LiveData<String>
-        get() = _name
-
-    private val _descr = MutableLiveData<String>()
-    val descr : LiveData<String>
-        get() = _descr
-
-    private val _price = MutableLiveData<Long>()
-    val price : LiveData<Long>
-        get() = _price
-
-    private val _stock = MutableLiveData<Int>()
-    val stock : LiveData<Int>
-        get() = _stock
 
     private var _showSnackbarEvent = MutableLiveData<Boolean>()
 
@@ -73,17 +62,23 @@ class ProductViewModel(
     private fun initializeSelectedProduct(Id : Long) {
         uiScope.launch {
             selectedProduct.value = productsRepository.getSelectedProduct(Id)
-            _name.value = selectedProduct.value!!.name
-            _price.value = selectedProduct.value!!.price
-            _descr.value = selectedProduct.value!!.description
-            _stock.value = selectedProduct.value!!.stock
         }
     }
 
     fun onSaveProduct(){
-        if (service.writeProduct(productId,name.value!!,descr.value!!,stock.value!!,price.value!!)) {
+        if (service.writeProduct(
+                productId,
+                selectedProduct.value?.name ?: "",
+                selectedProduct.value?.description ?: "",
+                selectedProduct.value?.stock ?: 0,
+                selectedProduct.value?.price ?: 0
+            )) {
             uiScope.launch {
-                productsRepository.saveProduct(Product(productId,name.value!!,descr.value!!,stock.value!!,price.value!!))
+                productsRepository.saveProduct(Product(productId,
+                    selectedProduct.value!!.name,
+                    selectedProduct.value!!.description,
+                    selectedProduct.value!!.stock,
+                    selectedProduct.value!!.price))
             }
             _navigateToStore.value = true
         }
@@ -101,28 +96,38 @@ class ProductViewModel(
 
     fun newStockQty(newQty: String){
         if ((newQty != "null") && (newQty != "")) {
-            _stock.value = newQty.toInt()
+            productEdited = true
+            selectedProduct.value!!.stock = newQty.toInt()
+            productEdited = false
         }
     }
 
     fun newPrice(newPrice: String){
         if ((newPrice != "null") && (newPrice != "")) {
-            _price.value = newPrice.toLong()
+            productEdited = true
+            selectedProduct.value!!.price = newPrice.toLong()
+            productEdited = false
         }
     }
 
     fun newProductName(newName: String){
-        _name.value = newName
+        productEdited = true
+        selectedProduct.value!!.name = newName
+        productEdited = false
     }
 
     fun newProductDescr(newDescr: String){
-        _descr.value = newDescr
+        productEdited = true
+        selectedProduct.value!!.description = newDescr
+        productEdited = false
     }
 
     fun sellOneBottle(){
-        if (_stock.value!! > 0) {
-            _stock.value = _stock.value?.minus(1)
+        if (selectedProduct.value!!.stock > 0) {
+            productEdited = true
+            selectedProduct.value!!.stock = selectedProduct.value!!.stock.minus(1)
             _showSnackbarEvent.value = true
+            productEdited = false
         }
     }
 

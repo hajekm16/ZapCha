@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.*
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.core.app.ShareCompat
 import androidx.core.content.getSystemService
@@ -21,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import mucacho.apps.zapcha.R
 import mucacho.apps.zapcha.database.ZapchaDatabase
 import mucacho.apps.zapcha.databinding.FragmentProductBinding
+import mucacho.apps.zapcha.product.ui.theme.ZapChaTheme
 
 //fragment to display and edit single product
 
@@ -94,7 +96,9 @@ class ProductFragment : Fragment() {
                 return ShareCompat.IntentBuilder(requireActivity())
                     .setType("text/plain")
                     .setChooserTitle("Jak sdílet: ")
-                    .setText(getString(R.string.share_product_text, productViewModel.name))
+                    .setText(getString(R.string.share_product_text,
+                        productViewModel.selectedProduct.value?.name ?: ""
+                    ))
                     .createChooserIntent()
             }
 
@@ -104,18 +108,15 @@ class ProductFragment : Fragment() {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        binding.editTextName.doAfterTextChanged {
-            productViewModel.newProductName(binding.editTextName.text.toString())
+        binding.composeView.apply{
+
+            setContent {
+                ZapChaTheme {
+                    ProductScreen(productViewModel)
+                }
+            }
         }
-        binding.editTextDescr.doAfterTextChanged {
-            productViewModel.newProductDescr(binding.editTextDescr.text.toString())
-        }
-        binding.editTextStock.doAfterTextChanged {
-            productViewModel.newStockQty(binding.editTextStock.text.toString())
-        }
-        binding.editTextPrice.doAfterTextChanged {
-            productViewModel.newPrice(binding.editTextPrice.text.toString())
-        }
+
         return binding.root
     }
 

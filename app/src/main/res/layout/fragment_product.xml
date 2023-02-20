@@ -6,79 +6,17 @@
             name="productViewModel"
             type="mucacho.apps.zapcha.product.ProductViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".product.ProductFragment"
         android:orientation="vertical">
 
-        <TextView
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/compose_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/productName"/>
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:inputType="text"
-            android:imeOptions="actionNext"
-            android:hint="@string/nameHint"
-            android:text="@{productViewModel.name}" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/productPrice"/>
-        <EditText
-            android:id="@+id/editTextPrice"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:inputType="number"
-            android:imeOptions="actionNext"
-            android:hint="@string/priceHint"
-            android:text="@{``+productViewModel.price}" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/productStock"/>
-        <EditText
-            android:id="@+id/editTextStock"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            android:hint="@string/stockHint"
-            android:text="@{``+productViewModel.stock}" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/productDescr"/>
-        <EditText
-            android:id="@+id/editTextDescr"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            android:hint="@string/descriptionHint"
-            android:text="@{productViewModel.descr}" />
-
-        <Button
-            android:id="@+id/SellOne"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_gravity="center"
-            android:text="@string/product_sell"
-            android:onClick="@{() -> productViewModel.sellOneBottle()}"/>
-
-        <Button
-            android:id="@+id/Save"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_gravity="center"
-            android:text="@string/product_save"
-            android:onClick="@{() -> productViewModel.onSaveProduct()}"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 </layout>

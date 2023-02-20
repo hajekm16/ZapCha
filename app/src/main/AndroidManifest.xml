@@ -15,6 +15,11 @@
         android:theme="@style/Theme.ZapCha"
         tools:targetApi="31">
         <activity
+            android:name=".ProductScreen"
+            android:exported="false"
+            android:label="@string/title_activity_product_screen"
+            android:theme="@style/Theme.ZapCha" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -27,6 +32,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

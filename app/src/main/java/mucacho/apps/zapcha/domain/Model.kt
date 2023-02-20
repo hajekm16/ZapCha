@@ -16,10 +16,10 @@ data class ProductList(val products : List<Product>) {
     }
 }
 data class Product(val id: Long,
-                 val name: String,
-                 val description: String,
-                 val stock: Int,
-                 val price: Long) {
+                 var name: String,
+                 var description: String,
+                 var stock: Int,
+                 var price: Long) {
 
     fun asDatabaseModel()= ZapChaDatabaseProduct(
         productId = id,

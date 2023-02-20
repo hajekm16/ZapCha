@@ -24,4 +24,5 @@
     <string name="descriptionHint">description</string>
     <string name="product_sell">Sell one bottle</string>
     <string name="product_save">Save</string>
+    <string name="title_activity_product_screen">ProductScreen</string>
 </resources>
